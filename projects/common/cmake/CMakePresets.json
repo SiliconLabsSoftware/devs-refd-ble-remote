@@ -1,0 +1,87 @@
+{
+  "version": 7,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "generator": "Ninja Multi-Config",
+      "toolchainFile": "${sourceDir}/../../common/cmake/toolchain_gcc_cm33.cmake",
+      "binaryDir": "${sourceDir}/build",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Configure (Debug)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Debug",
+        "CMAKE_C_FLAGS_DEBUG": "-DDEBUG=1"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Configure (Release)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_CONFIGURATION_TYPES": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build_base",
+      "hidden": true
+    },
+    {
+      "name": "build_debug",
+      "displayName": "Build (Debug)",
+      "inherits": "build_base",
+      "configurePreset": "debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "build_release",
+      "displayName": "Build (Release)",
+      "inherits": "build_base",
+      "configurePreset": "release",
+      "configuration": "Release"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "workflow_debug",
+      "displayName": "Build Debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug"
+        },
+        {
+          "type": "build",
+          "name": "build_debug"
+        }
+      ]
+    },
+    {
+      "name": "workflow_release",
+      "displayName": "Build Release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "release"
+        },
+        {
+          "type": "build",
+          "name": "build_release"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+    "logging_level": "INFO",
+    "scan_timeout": 6.0,
+    "remote_adv_name": "BLE Remote Transmitter",
+    "ai_api_key": "",
+    "ai_model_name": "gemini-2.5-flash"
+}

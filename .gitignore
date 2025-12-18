@@ -1,25 +1,40 @@
-# General part of the gitignore
-*.launch
-*.orig
+#General excludes
+*.lnk
+.cache/
 *.bak
-.vscode/
-**/build/
+*.orig
+**/.DS_Store
+**/.vscode*
+**/vscode*
+.editorconfig
+**/__pycache__/
+/release/
+
+#Siliabs project specific
+#General part
+**/.trash
+*.project
+*.cproject
+*.projectlinkstore
+**/.projectlinkstore
+**/.idea/
 **/GNU ARM v*
 **/.projectlinkstore
-**/.settings
 **/.makefile
-**/.trash
+**/.settings
+**/.pdm
 **/.uceditor
 **/autogen/*.crc
-**/__pycache__
-**/GNU ARM v*
-**/IAR ARM*
-**/sonar-bw/
-
-##Enable these if you are not tracking Simplicity studio project
-# **/.cproject
-# **/.project
-# **/.pdm
+**/autogen/.slc_state/*.crc
+**/*_report.html
+**/*.zap~
+#IAR is not supported
+projects/*/*_iar_cmake/
+projects/*/autogen/linkerfile.icf
+#Ignore all build directories
+projects/*/artifact/
+projects/*/build/
+projects/*/*_cmake/build/
 
 ## Documentation related ignores.
 ## Modify them if it is necessary
@@ -30,3 +45,13 @@
 *.xlsx
 *.xls
 *.html
+#Ignore python virtual envs
+projects/*/.venv/
+**/venv
+#ignore pyinstaller related files
+**/dist/
+*.spec
+#ignore wav file
+*.wav
+#ignore log files
+*.log
