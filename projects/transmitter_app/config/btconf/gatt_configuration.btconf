@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Custom BLE GATT-->
+<gatt gatt_caching="true" generic_attribute_service="true" header="gatt_db.h" name="Custom BLE GATT" out="gatt_db.c" prefix="gattdb_">
+
+  <!--Generic Access-->
+  <service advertise="false" name="Generic Access" requirement="mandatory" sourceId="org.bluetooth.service.generic_access" type="primary" uuid="1800">
+    <informativeText>Abstract: The generic_access service contains generic information about the device. All available Characteristics are readonly. </informativeText>
+
+    <!--Device Name-->
+    <characteristic const="false" id="test_device_name" name="Device Name" sourceId="org.bluetooth.characteristic.gap.device_name" uuid="2A00">
+      <value length="255" type="utf-8" variable_length="true">BLE Remote Transmitter</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Appearance-->
+    <characteristic const="true" name="Appearance" sourceId="org.bluetooth.characteristic.gap.appearance" uuid="2A01">
+      <informativeText>Abstract: The external appearance of this device. The values are composed of a category (10-bits) and sub-categories (6-bits). </informativeText>
+      <value length="2" type="hex" variable_length="false">0000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Device Information-->
+  <service advertise="false" id="device_information" name="Device Information" requirement="mandatory" sourceId="org.bluetooth.service.device_information" type="primary" uuid="180A">
+    <informativeText>Abstract: The Device Information Service exposes manufacturer and/or vendor information about a device. Summary: This service exposes manufacturer information about a device. The Device Information Service is instantiated as a Primary Service. Only one instance of the Device Information Service is exposed on a device.</informativeText>
+
+    <!--Manufacturer Name String-->
+    <characteristic const="true" id="test_manufacturer_name_string" name="Manufacturer Name String" sourceId="org.bluetooth.characteristic.manufacturer_name_string" uuid="2A29">
+      <informativeText>Abstract: The value of this characteristic is a UTF-8 string representing the name of the manufacturer of the device.</informativeText>
+      <value length="12" type="utf-8" variable_length="false">Silicon Labs</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Model Number String-->
+    <characteristic const="false" id="test_model_number_string" name="Model Number String" sourceId="org.bluetooth.characteristic.model_number_string" uuid="2A24">
+      <informativeText>Abstract: The value of this characteristic is a UTF-8 string representing the model number assigned by the device vendor.</informativeText>
+      <value length="8" type="utf-8" variable_length="false">00000000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Hardware Revision String-->
+    <characteristic const="false" id="hardware_revision_string" name="Hardware Revision String" sourceId="org.bluetooth.characteristic.hardware_revision_string" uuid="2A27">
+      <informativeText>Summary: The value of this characteristic is a UTF-8 string representing the hardware revision for the hardware within the device.</informativeText>
+      <value length="3" type="utf-8" variable_length="false">000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Firmware Revision String-->
+    <characteristic const="false" id="firmware_revision_string" name="Firmware Revision String" sourceId="org.bluetooth.characteristic.firmware_revision_string" uuid="2A26">
+      <informativeText>Summary: The value of this characteristic is a UTF-8 string representing the firmware revision for the firmware within the device.</informativeText>
+      <value length="5" type="utf-8" variable_length="false">0.0.0</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--System ID-->
+    <characteristic const="false" id="system_id" name="System ID" sourceId="org.bluetooth.characteristic.system_id" uuid="2A23">
+      <informativeText>Abstract: The SYSTEM ID characteristic consists of a structure with two fields. The first field are the LSOs and the second field contains the MSOs. This is a 64-bit structure which consists of a 40-bit manufacturer-defined identifier concatenated with a 24 bit unique Organizationally Unique Identifier (OUI). The OUI is issued by the IEEE Registration Authority (http://standards.ieee.org/regauth/index.html) and is required to be used in accordance with IEEE Standard 802-2001.6 while the least significant 40 bits are manufacturer defined. If System ID generated based on a Bluetooth Device Address, it is required to be done as follows. System ID and the Bluetooth Device Address have a very similar structure: a Bluetooth Device Address is 48 bits in length and consists of a 24 bit Company Assigned Identifier (manufacturer defined identifier) concatenated with a 24 bit Company Identifier (OUI). In order to encapsulate a Bluetooth Device Address as System ID, the Company Identifier is concatenated with 0xFFFE followed by the Company Assigned Identifier of the Bluetooth Address. For more guidelines related to EUI-64, refer to http://standards.ieee.org/develop/regauth/tut/eui64.pdf. Examples: If the system ID is based of a Bluetooth Device Address with a Company Identifier (OUI) is 0x123456 and the Company Assigned Identifier is 0x9ABCDE, then the System Identifier is required to be 0x123456FFFE9ABCDE.</informativeText>
+      <value length="8" type="hex" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Silabs Voice-->
+  <service advertise="false" name="Silabs Voice" requirement="mandatory" sourceId="" type="primary" uuid="b7ef1193-dc2e-4362-93d3-df429eb3ad10">
+    <informativeText>Service for transmitting voice data over Bluetooth Low Energy.</informativeText>
+
+    <!--Audio Data-->
+    <characteristic const="false" id="voice_audio_data" name="Audio Data" sourceId="" uuid="00ce7a72-ec08-473d-943e-81ec27fdc5f2">
+      <informativeText>Characteristic for streaming audio data.</informativeText>
+      <value length="255" type="hex" variable_length="true"/>
+      <properties>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Sample Rate-->
+    <characteristic const="false" id="voice_sample_rate" name="Sample Rate" sourceId="" uuid="00ce7a72-ec08-473d-943e-81ec27fdc601">
+      <informativeText>Characteristic to set the audio sample rate.</informativeText>
+      <value length="1" type="user" variable_length="false"/>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Filter Enable-->
+    <characteristic const="false" id="voice_filter_enable" name="Filter Enable" sourceId="" uuid="00ce7a72-ec08-473d-943e-81ec27fdc602">
+      <informativeText>Characteristic to enable or disable audio filtering.</informativeText>
+      <value length="1" type="user" variable_length="false"/>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Encoding Enable-->
+    <characteristic const="false" id="voice_encoding_enable" name="Encoding Enable" sourceId="" uuid="00ce7a72-ec08-473d-943e-81ec27fdc603">
+      <informativeText>Characteristic to enable or disable audio encoding.</informativeText>
+      <value length="1" type="user" variable_length="false"/>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Transfer Status-->
+    <characteristic const="false" id="voice_transfer_status" name="Transfer Status" sourceId="" uuid="00ce7a72-ec08-473d-943e-81ec27fdc604">
+      <informativeText>Characteristic to notify the status of audio data transfer.</informativeText>
+      <value length="1" type="user" variable_length="false"/>
+      <properties>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Audio Channels-->
+    <characteristic const="false" id="voice_audio_channels" name="Audio Channels" sourceId="" uuid="00ce7a72-ec08-473d-943e-81ec27fdc605">
+      <informativeText>Characteristic to configure the number of audio channels.</informativeText>
+      <value length="1" type="user" variable_length="false"/>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Silabs Remote Keys-->
+  <service advertise="false" name="Silabs Remote Keys" requirement="mandatory" sourceId="" type="primary" uuid="182f2378-e8d1-4850-adcd-35e7754d8605">
+
+    <!--Key Status-->
+    <characteristic const="false" id="key_status" name="Key Status" sourceId="" uuid="faf57611-a4ab-463c-bea5-afe486466760">
+      <informativeText>2 byte Data.
+First byte is the current/last pressed key index.
+Second byte is the status::
+  - 0 = no key pressed (ignore key field).
+  - 1 = new key pressed, 
+  - 2 = key repeated, 
+  - 3 = key released, 
+  - 4 = multiple keys</informativeText>
+      <value length="0" type="user" variable_length="false">0000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <indicate authenticated="false" bonded="false" encrypted="false"/>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Key Config-->
+    <characteristic const="false" id="key_config" name="Key Config" sourceId="" uuid="438395b9-c5da-43b5-b886-2911de6e9a93">
+      <informativeText>READ:
+The last written ID can be read.
+(1 ID byte can be written to change the config ID.)
+
+WRITE:
+Maximum 65 byte of data.
+First byte is ID, after that the raw data comes in LSB format.
+
+ID can be:
+ - 0: ALLOWED_KEY_BITFIELD_BLE (8 bytes)
+      Key bits set to 1 that are allowed to be sent over BLE.
+ - 1: ALLOWED_KEY_BITFIELD_IR (8 bytes)
+      Key bits set to 1 that are allowed to be sent over IR.
+ - 2: IR_ADDRESS (2 byte)
+      IR address used for sending IR commands (0-255 normal, 255- extended format).
+ - 3: IR_REPEAT_LIMIT (4 byte)
+      Maximum number of times an IR command can be repeated.
+ - 4: IR_KEY_TO_CMD_TABLE (64 byte)
+      Mapping of IR keys to their corresponding commands.</informativeText>
+      <value length="0" type="user" variable_length="false">0000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Silabs Remote Test-->
+  <service advertise="false" name="Silabs Remote Test" requirement="mandatory" sourceId="" type="primary" uuid="2a32831d-9797-41ed-81b1-6f66624ddf78">
+
+    <!--Battery-->
+    <characteristic const="false" id="test_battery" name="Battery" sourceId="" uuid="5ae3ff03-96e6-4ccf-a8c6-499a7cccfa7b">
+      <informativeText>Current battery voltage in uV.
+Data represented in little endian.</informativeText>
+      <value length="0" type="user" variable_length="false">00000000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Battery measurement time-->
+    <characteristic const="false" id="test_battery_meas_time" name="Battery measurement time" sourceId="" uuid="7e4f9ee9-5f89-4290-a9b4-3f6f28c30fab">
+      <informativeText>Battery measurement period time in seconds.
+0 means no measurement.
+Data represented in little endian.</informativeText>
+      <value length="0" type="user" variable_length="false">0000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Voice record-->
+    <characteristic const="false" id="test_voice_record" name="Voice record" sourceId="" uuid="47c24ddf-e65d-4406-942b-186111e46c35">
+      <informativeText>Boolean enables/disables the microphone.</informativeText>
+      <value length="0" type="user" variable_length="false">00</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Use Left Mic-->
+    <characteristic const="false" id="test_mic_use_left" name="Use Left Mic" sourceId="" uuid="4da595b4-ef2b-452f-87b8-26ec86f6a38a">
+      <informativeText>Boolean indicates whether to use the left or the right microphone.</informativeText>
+      <value length="0" type="user" variable_length="false">00</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Mic PDM Delay-->
+    <characteristic const="false" id="test_mic_pdm_delay" name="Mic PDM Delay" sourceId="" uuid="cc882a6f-fd2c-4b4b-a2ab-4be46c79db2c">
+      <informativeText>Delay on microphone, corresponds to DLYMUXSEL in PDM CFG1 register.</informativeText>
+      <value length="0" type="user" variable_length="false">00</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--LED TX-->
+    <characteristic const="false" id="test_led_tx" name="LED TX" sourceId="" uuid="08e58602-d9e1-425b-be87-5949e753a3a3">
+      <informativeText>On (1) /off (0) / auto (2)</informativeText>
+      <value length="0" type="user" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--LED BACKLIGHT-->
+    <characteristic const="false" id="test_led_backlight" name="LED BACKLIGHT" sourceId="" uuid="b10700cf-9f63-4db3-9d22-a767b9ec3831">
+      <informativeText>On (1) /off (0) / auto (2)</informativeText>
+      <value length="0" type="user" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Force Key-->
+    <characteristic const="false" id="test_key_force" name="Force Key" sourceId="" uuid="a788971a-0ef3-449e-a10b-e58f9f4eae72">
+      <informativeText>First byte is "number" second byte is "times".
+Simulate key press of key "number" for "n times". If times is 0, no keypress is done. If time is 1, then key press is simulated once. If times is &gt; 1, there will be one keypress and times-1 repeats</informativeText>
+      <value length="0" type="user" variable_length="false">0000</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Accelerometer-->
+    <characteristic const="false" id="test_accelerometer" name="Accelerometer" sourceId="" uuid="9a964383-63e8-47bb-a32c-8590d1685ae4">
+      <informativeText>Read accelerometer value (x,y,z). 
+Each direction is a 4 byte integer in little endian.
+Unit is in micro G (1 G = 9.8 m/s^2)</informativeText>
+      <value length="12" type="user" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Accelerometer threshold-->
+    <characteristic const="false" id="test_accelerometer_threshold" name="Accelerometer threshold" sourceId="" uuid="e8dc605b-6518-4cf7-a1d0-60f0e54f6e6a">
+      <informativeText>Set magnitude of acceleration that will cause turn on. 
+This is deviation from 1 G.
+Unit is in micro G (1 G = 9.8 m/s^2)</informativeText>
+      <value length="0" type="user" variable_length="false">00000000</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+</gatt>

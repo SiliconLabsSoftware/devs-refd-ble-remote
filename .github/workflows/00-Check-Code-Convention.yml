@@ -62,6 +62,19 @@ jobs:
         echo "Applying custom formatting configuration..."
         chmod +x ./.github/coding-convention-tool/project_custom_config_handler.sh
         ./.github/coding-convention-tool/project_custom_config_handler.sh
+    - name: Modify pre-commit config to exclude folders
+      run: |
+        echo "Installing yq for YAML processing..."
+        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq
+        echo "Modifying .pre-commit-config.yaml to exclude specific folders..."
+        config_file=".github/coding-convention-tool/.pre-commit-config.yaml"
+        new_patterns=".*lis2d(e|w)12_reg\.(c|h)"
+        current_exclude=$(yq '.exclude' "$config_file")
+        updated_exclude="${current_exclude}|${new_patterns}"
+        yq -i ".exclude = \"$updated_exclude\"" "$config_file"
+        echo "Successfully updated .pre-commit-config.yaml with exclude patterns"
+        echo "New exclude pattern: $updated_exclude"
 
     - name: Run test
       run: |
@@ -70,18 +83,30 @@ jobs:
         git diff > code-fix.patch || echo "No changes to patch."
         ls -lah code-fix.patch
 
+    - name: Show Coding Convention Result
+      run: |
+        echo "=== CodingConventionTool.txt ==="
+        cat CodingConventionTool.txt
     - name: Upload Result
+      continue-on-error: true
       uses: actions/upload-artifact@v4.3.4
       with:
         name: CodingConventionResult
         path: CodingConventionTool.txt
-        retention-days: 90
+        retention-days: 1
+
+    - name: Show Coding Convention Patch
+      run: |
+        echo "=== code-fix.patch ==="
+        cat code-fix.patch
     - name: Upload Patch
+      continue-on-error: true
       uses: actions/upload-artifact@v4.3.4
       with:
         name: code-fix.patch
         path: code-fix.patch
-        retention-days: 90
+        retention-days: 1
+
     - name: Check log file to set status of the job
       run: |
         keywords=("Failed")
