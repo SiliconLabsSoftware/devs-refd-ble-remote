@@ -1,4 +1,5 @@
-# Bluetooth remote control  
+# Bluetooth remote control 
+DO NOT MERGE. THIS IS TEST COMMIT
 This reference design is for implementing a wireless Bluetooth Low Energy (BLE) remote control system. It demonstrates a complete solution with a bootloader for firmware updates, a transmitter application for command transmission, and a (test) receiver for processing the remote control commands.  
 
 The demo contains the following projects:
