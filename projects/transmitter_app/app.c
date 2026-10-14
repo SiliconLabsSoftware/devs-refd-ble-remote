@@ -42,6 +42,7 @@
 #include "../sl_system_config.h"
 #include "../../common/src/drivers/sl_log.h"
 #include "../../common/src/sl_build_time.h"
+#include "HERE IS MY FAULTY LINE
 
 #if DEBUG
   #define APP_TYPE "DEBUG"
